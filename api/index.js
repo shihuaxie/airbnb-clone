@@ -14,6 +14,8 @@ app.use(cors({
     origin: 'http://127.0.0.1:5173',
 }))
 
+//DeprecationWarning:DeprecationWarning:
+mongoose.set("strictQuery", false);
 // connect to my mangodb
 mongoose.connect(process.env.MONGO_URL);
 
@@ -24,13 +26,17 @@ app.get('/test', (req, res) => {
 app.post('/register', async (req, res) => {
     const {name, email, password} = req.body;
 
-    const userDoc = await User.create({
-        name,
-        email,
-        password:bcrypt.hashSync(password, bcryptSalt),
-    });
+    try {
+        const userDoc = await User.create({
+            name,
+            email,
+            password: bcrypt.hashSync(password, bcryptSalt),
+        });
 
-    res.json(userDoc);
+        res.json(userDoc);
+    } catch (err) {
+        res.status(422).json(err);
+    }
 })
 
 app.listen(4000);
