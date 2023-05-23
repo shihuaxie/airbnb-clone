@@ -77,12 +77,17 @@ app.get('/profile', (req, res) => {
     if (token) {
         jwt.verify(token, jwtSecret, {}, async (err, userData) => {
             if (err) throw err;
-            const {name,email, _id}= await User.findById(userData.id);
-            res.json({name,email, _id});
+            const {name, email, _id} = await User.findById(userData.id);
+            res.json({name, email, _id});
         });
     } else {
         res.json(null);
     }
+})
+
+// logout
+app.post('/logout', (req, res) => {
+    res.cookie('token', '').json(true);
 })
 
 app.listen(4000);
