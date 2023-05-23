@@ -23,22 +23,32 @@ app.get('/test', (req, res) => {
     res.json('test ok')
 });
 
+// register user
 app.post('/register', async (req, res) => {
     const {name, email, password} = req.body;
-
     try {
         const userDoc = await User.create({
             name,
             email,
             password: bcrypt.hashSync(password, bcryptSalt),
         });
-
         res.json(userDoc);
     } catch (err) {
         res.status(422).json(err);
     }
 })
 
+// login user
+app.post('/login', async (req, res) =>{
+    const [email, password] = req.body;
+    const userDoc = await User.findOne({email})
+
+    if(userDoc) {
+        res.json('Found');
+    } else{
+        res.json('Not found');
+    }
+})
 app.listen(4000);
 
 // uKHsbF5EeiSpYu6o
