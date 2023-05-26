@@ -1,8 +1,19 @@
-export default function Perks({selected, onChange}){
-    return(
+export default function Perks({selected, onChange}) {
+
+    function handleCbClick(e) {
+        // console.log(e.target.checked) check the perks clicked or not
+        const {checked, name} = e.target;
+        if (checked) {
+            onChange([...selected, name]);
+        } else {
+            onChange([...selected.filter(selectedName => selectedName !== name)])
+        }
+    }
+
+    return (
         <>
             <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-                <input type="checkbox"/>
+                <input type="checkbox" name="wifi" onChange={handleCbClick}/>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                      strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round"
@@ -11,7 +22,7 @@ export default function Perks({selected, onChange}){
                 <span>Wifi</span>
             </label>
             <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-                <input type="checkbox"/>
+                <input type="checkbox" name="parking" onChange={handleCbClick}/>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                      strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round"
@@ -20,7 +31,7 @@ export default function Perks({selected, onChange}){
                 <span>Free parking spot</span>
             </label>
             <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-                <input type="checkbox"/>
+                <input type="checkbox" name="tv" onChange={handleCbClick}/>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                      strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round"
@@ -29,7 +40,7 @@ export default function Perks({selected, onChange}){
                 <span>TV</span>
             </label>
             <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-                <input type="checkbox"/>
+                <input type="checkbox" name="radio" onChange={handleCbClick}/>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                      strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round"
@@ -38,7 +49,7 @@ export default function Perks({selected, onChange}){
                 <span>Radio</span>
             </label>
             <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-                <input type="checkbox"/>
+                <input type="checkbox" name="pets" onChange={handleCbClick}/>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                      strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                     <path strokeLinecap="round" strokeLinejoin="round"
@@ -47,13 +58,15 @@ export default function Perks({selected, onChange}){
                 <span>Pets</span>
             </label>
             <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-                <input type="checkbox"/>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+                <input type="checkbox" name="entrance" onChange={handleCbClick}/>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
+                     stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round"
+                          d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"/>
                 </svg>
 
                 <span>Private entrance</span>
             </label>
         </>
     )
-   }
+}
