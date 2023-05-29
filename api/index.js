@@ -8,6 +8,7 @@ const imageDownloader = require('image-downloader');
 const multer = require('multer');
 const fs = require("fs");
 const User = require('./models/User');
+const Place = require('./models/Place');
 
 
 require('dotenv').config()
@@ -111,7 +112,7 @@ app.post('/upload-by-link', async (req, res) => {
 const photosMiddleware = multer({dest: 'uploads/'});
 app.post('/upload', photosMiddleware.array('photos', 100), async (req, res) => {
     const uploadFiles = [];
-    for (let i = 0; i <req.files.length; i++) {
+    for (let i = 0; i < req.files.length; i++) {
         const {path, originalname} = req.files[i];
         const parts = originalname.split('.');
         const ext = parts[parts.length - 1];
@@ -122,6 +123,25 @@ app.post('/upload', photosMiddleware.array('photos', 100), async (req, res) => {
     res.json(uploadFiles);
 });
 
+
+//add new place
+app.post('/places', (req, res) => {
+    const {token} = req.cookies;
+    const {title, address, addedPhotos,
+        description, perks, extraInfo,
+        checkout, checkin, maxGuests
+    } = req.body;
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+        if (err) throw err;
+      const placeDoc =  await Place.create({
+            owner: userData.id,
+          title, address, addedPhotos,
+          description, perks, extraInfo,
+          checkout, checkin, maxGuests,
+        });
+      res.json(placeDoc);
+    });
+})
 
 app.listen(4000);
 
