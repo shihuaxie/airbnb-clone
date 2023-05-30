@@ -129,13 +129,13 @@ app.post('/places', (req, res) => {
     const {token} = req.cookies;
     const {
         title, address, photos: addedPhotos,
-        description, perks, extraInfo,
+        description,price, perks, extraInfo,
         checkout, checkin, maxGuests
     } = req.body;
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
         if (err) throw err;
         const placeDoc = await Place.create({
-            owner: userData.id,
+            owner: userData.id, price,
             title, address, photos: addedPhotos,
             description, perks, extraInfo,
             checkout, checkin, maxGuests,
@@ -164,17 +164,18 @@ app.put('/places', async (req, res) => {
     const {
         id, title, address, addedPhotos,
         description, perks, extraInfo,
-        checkout, checkin, maxGuests
+        checkout, checkin, maxGuests, price,
     } = req.body;
 
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
         if (err) throw err;
         const placeDoc = await Place.findById(id);
         if (userData.id === placeDoc.owner.toString()) {
+            //console.log({price})
             placeDoc.set({
                 title, address, photos: addedPhotos,
                 description, perks, extraInfo,
-                checkout, checkin, maxGuests
+                checkout, checkin, maxGuests, price,
             });
             placeDoc.save();
             res.json('ok');
