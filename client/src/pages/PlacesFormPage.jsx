@@ -24,19 +24,19 @@ export default function PlacesFormPage() {
             return;
         }
         axios.get('/places/' + id).then(res=>{
-            const{data} = res;
-            setTitle(data.title);
-            setAddress(data.address);
-            setAddedPhotos(data.photos);
-            setDescription(data.description);
-            setPerks(data.perks);
-            setExtraInfo(data.extraInfo);
-            setCheckin(data.checkIn);
-            setCheckout(data.checkOut);
-            setMaxGuests(data.maxGuests);
+                const{data} = res;
+                setTitle(data.title);
+                setAddress(data.address);
+                setAddedPhotos(data.photos);
+                setDescription(data.description);
+                setPerks(data.perks);
+                setExtraInfo(data.extraInfo);
+                setCheckin(data.checkIn);
+                setCheckout(data.checkOut);
+                setMaxGuests(data.maxGuests);
             }
         )
-},[id])
+    },[id])
 
 
     function inputHeader(text) {
