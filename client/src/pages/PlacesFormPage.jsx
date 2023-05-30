@@ -18,6 +18,7 @@ export default function PlacesFormPage() {
     const [checkout, setCheckout] = useState('');
     const [maxGuests, setMaxGuests] = useState('');
     const [redirect, setRedirect] = useState(false);
+    const [price, setPrice] = useState(100);
 
     useEffect(() => {
         if (!id) {
@@ -34,6 +35,7 @@ export default function PlacesFormPage() {
                 setCheckin(data.checkIn);
                 setCheckout(data.checkOut);
                 setMaxGuests(data.maxGuests);
+                setPrice(data.price);
             }
         )
     },[id])
@@ -65,7 +67,7 @@ export default function PlacesFormPage() {
         const placeData = {
             title, address, addedPhotos,
             description, perks, extraInfo,
-            checkout, checkin, maxGuests
+            checkout, checkin, maxGuests, price,
         };
         if(id){
             //update
@@ -116,7 +118,7 @@ export default function PlacesFormPage() {
                     onChange={e => setExtraInfo(e.target.value)}
                 />
                 {preInput('Check in&out times', 'add check in and out, and guests')}
-                <div className="grid gap-2 sm:grid-cols-3">
+                <div className="grid gap-2 grid-cols-2 md:grid-cols-4">
                     <div>
                         <h3 className="mt-2 -mb-1">Check in time</h3>
                         <input type="text"
@@ -136,6 +138,13 @@ export default function PlacesFormPage() {
                         <input type="number"
                                value={maxGuests}
                                onChange={e => setMaxGuests(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <h3 className="mt-2 -mb-1">Price per night</h3>
+                        <input type="number"
+                               value={price}
+                               onChange={e => setPrice(e.target.value)}
                         />
                     </div>
                 </div>

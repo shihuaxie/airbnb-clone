@@ -15,6 +15,7 @@ button{
 textarea{
     height: 140px;
 }
+
 button.primary{
     background-color: #F5385D;
     @apply bg-primary p-2 w-full text-white rounded-full;
