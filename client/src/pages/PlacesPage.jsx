@@ -30,9 +30,10 @@ export default function PlacesPage() {
                     <Link to={'/account/places/' + place._id}
                           className="flex mt-4 cursor-pointer gap-4 bg-gray-100 p-4 rounded-2xl"
                           key={place._id}>
-                        <div className="flex w-32 h-32 bg-gray-300">
+                        <div className="flex w-32 h-32 bg-gray-300 shrink-0">
                             {place.photos.length > 0 && (
-                                <img className="object-cover w-full h-full" src={'http://localhost:4000/uploads/' + place.photos[0]}
+                                <img className="w-full h-full object-cover"
+                                     src={'http://localhost:4000/uploads/' + place.photos[0]}
                                      alt="property photo"/>
                             )}
                         </div>
