@@ -130,7 +130,7 @@ app.post('/places', (req, res) => {
     const {
         title, address, photos: addedPhotos,
         description,price, perks, extraInfo,
-        checkout, checkin, maxGuests
+        checkOut, checkIn, maxGuests
     } = req.body;
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
         if (err) throw err;
@@ -138,7 +138,7 @@ app.post('/places', (req, res) => {
             owner: userData.id, price,
             title, address, photos: addedPhotos,
             description, perks, extraInfo,
-            checkout, checkin, maxGuests,
+            checkOut, checkIn, maxGuests,
         });
         res.json(placeDoc);
     });
@@ -164,7 +164,7 @@ app.put('/places', async (req, res) => {
     const {
         id, title, address, addedPhotos,
         description, perks, extraInfo,
-        checkout, checkin, maxGuests, price,
+        checkOut, checkIn, maxGuests, price,
     } = req.body;
 
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
@@ -175,7 +175,7 @@ app.put('/places', async (req, res) => {
             placeDoc.set({
                 title, address, photos: addedPhotos,
                 description, perks, extraInfo,
-                checkout, checkin, maxGuests, price,
+                checkOut, checkIn, maxGuests, price,
             });
             placeDoc.save();
             res.json('ok');

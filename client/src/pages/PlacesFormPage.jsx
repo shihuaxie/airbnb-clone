@@ -14,8 +14,8 @@ export default function PlacesFormPage() {
     const [description, setDescription] = useState('');
     const [perks, setPerks] = useState([]);
     const [extraInfo, setExtraInfo] = useState('');
-    const [checkin, setCheckin] = useState('');
-    const [checkout, setCheckout] = useState('');
+    const [checkIn, setCheckin] = useState('');
+    const [checkOut, setCheckout] = useState('');
     const [maxGuests, setMaxGuests] = useState('');
     const [redirect, setRedirect] = useState(false);
     const [price, setPrice] = useState(100);
@@ -67,7 +67,7 @@ export default function PlacesFormPage() {
         const placeData = {
             title, address, addedPhotos,
             description, perks, extraInfo,
-            checkout, checkin, maxGuests, price,
+            checkOut, checkIn, maxGuests, price,
         };
         if(id){
             //update
@@ -122,14 +122,14 @@ export default function PlacesFormPage() {
                     <div>
                         <h3 className="mt-2 -mb-1">Check in time</h3>
                         <input type="text"
-                               value={checkin}
+                               value={checkIn}
                                onChange={e => setCheckin(e.target.value)}
                                placeholder="14"/>
                     </div>
                     <div>
                         <h3 className="mt-2 -mb-1">Check out time</h3>
                         <input type="text"
-                               value={checkout}
+                               value={checkOut}
                                onChange={e => setCheckout(e.target.value)}
                                placeholder="11"/>
                     </div>
