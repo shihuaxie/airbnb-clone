@@ -38,7 +38,7 @@ export default function PlacePage() {
                     </div>
                         {place?.photos?.length > 0 && place.photos.map(photo => (
                             <div key={place._id}>
-                                <img src={'http://localhost:4000/uploads/' + photo} alt="place photos"/>
+                                <img className="w-1200" src={'http://localhost:4000/uploads/' + photo} alt="place photos"/>
                             </div>
                         ))}
                 </div>

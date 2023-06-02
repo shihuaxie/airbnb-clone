@@ -9,6 +9,7 @@ const multer = require('multer');
 const fs = require("fs");
 const User = require('./models/User');
 const Place = require('./models/Place');
+const Booking = require('./models/Booking');
 
 
 require('dotenv').config()
@@ -129,7 +130,7 @@ app.post('/places', (req, res) => {
     const {token} = req.cookies;
     const {
         title, address, photos: addedPhotos,
-        description,price, perks, extraInfo,
+        description, price, perks, extraInfo,
         checkOut, checkIn, maxGuests
     } = req.body;
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
@@ -184,8 +185,21 @@ app.put('/places', async (req, res) => {
 })
 
 //index page
-app.get('/places', async (req, res)=>{
+app.get('/places', async (req, res) => {
     res.json(await Place.find());
+})
+
+//bookings
+app.post('/bookings', (req, res) => {
+    const {place, checkIn, checkOut, name, mobile, guestsNum, price} = req.body;
+    Booking.create({
+        place, checkIn, checkOut, name, mobile, guestsNum, price
+    }).then((doc) => {
+        res.json(doc);
+    }).catch((err) => {
+            throw err;
+        }
+    )
 })
 
 app.listen(4000);
