@@ -3,7 +3,6 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import BookingWidget from "../components/BookingWidget.jsx";
 import PlaceGallery from "../components/PlaceGallery.jsx";
-import AccountNav from "../components/AccountNav.jsx";
 import AddressLink from "../components/AddressLink.jsx";
 
 export default function PlacePage() {
