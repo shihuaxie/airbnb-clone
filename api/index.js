@@ -11,6 +11,7 @@ const User = require('./models/User');
 const Place = require('./models/Place');
 const Booking = require('./models/Booking');
 const multer = require("multer");
+const mime = require('mime-types');
 
 
 require('dotenv').config()
@@ -41,8 +42,6 @@ app.use(cors({
 
 //DeprecationWarning:DeprecationWarning:
 mongoose.set("strictQuery", false);
-// connect to my mangodb
-mongoose.connect(process.env.MONGO_URL);
 
 //upload photos to aws s3 func
 async function uploadToS3(path, originalFilename, mimetype) {
@@ -68,11 +67,15 @@ async function uploadToS3(path, originalFilename, mimetype) {
 }
 
 app.get('/test', (req, res) => {
+    // connect to my mangodb
+    mongoose.connect(process.env.MONGO_URL);
     res.json('test ok')
 });
 
 // register user
 app.post('/register', async (req, res) => {
+    // connect to my mangodb
+    mongoose.connect(process.env.MONGO_URL);
     const {name, email, password} = req.body;
     try {
         const userDoc = await User.create({
@@ -88,6 +91,8 @@ app.post('/register', async (req, res) => {
 
 // login user
 app.post('/login', async (req, res) => {
+    // connect to my mangodb
+    mongoose.connect(process.env.MONGO_URL);
     const email = req.body.email;
     const password = req.body.password;
     const userDoc = await User.findOne({email})
@@ -114,6 +119,8 @@ app.post('/login', async (req, res) => {
 
 
 app.get('/profile', (req, res) => {
+// connect to my mangodb
+    mongoose.connect(process.env.MONGO_URL);
 
     const {token} = req.cookies;
 
@@ -139,9 +146,10 @@ app.post('/upload-by-link', async (req, res) => {
     const newName = 'photo' + Date.now() + '.jpg';
     await imageDownloader.image({
         url: link,
-        dest: __dirname + '/uploads/' + newName,
+        dest: '/tmp/' + newName,
     });
-    res.json(newName);
+    const url = await uploadToS3('/tmp/' + newName, newName, mime.lookup('/tmp/' + newName))
+    res.json(url);
 })
 
 //upload photo by files
@@ -159,6 +167,8 @@ app.post('/upload', photosMiddleware.array('photos', 100), async (req, res) => {
 
 //add new place
 app.post('/places', (req, res) => {
+    // connect to my mangodb
+    mongoose.connect(process.env.MONGO_URL);
     const {token} = req.cookies;
     const {
         title, address, photos: addedPhotos,
@@ -178,6 +188,8 @@ app.post('/places', (req, res) => {
 })
 
 app.get('/user-places', (req, res) => {
+    // connect to my mangodb
+    mongoose.connect(process.env.MONGO_URL);
     const {token} = req.cookies;
     jwt.verify(token, jwtSecret, {}, async (err, userData) => {
         const {id} = userData;
@@ -187,12 +199,16 @@ app.get('/user-places', (req, res) => {
 
 //redirect to the places we saved
 app.get('/places/:id', async (req, res) => {
+    // connect to my mangodb
+    mongoose.connect(process.env.MONGO_URL);
     const {id} = req.params;
     res.json(await Place.findById(id))
 })
 
 //update the saved place
 app.put('/places', async (req, res) => {
+    // connect to my mangodb
+    mongoose.connect(process.env.MONGO_URL);
     const {token} = req.cookies;
     const {
         id, title, address, addedPhotos,
@@ -218,11 +234,15 @@ app.put('/places', async (req, res) => {
 
 //index page
 app.get('/places', async (req, res) => {
+    // connect to my mangodb
+    mongoose.connect(process.env.MONGO_URL);
     res.json(await Place.find());
 })
 
 //post bookings
 app.post('/bookings', async (req, res) => {
+    // connect to my mangodb
+    mongoose.connect(process.env.MONGO_URL);
     const userData = await getUserDataFromReq(req);
     const {place, checkIn, checkOut, name, mobile, guestsNum, price} = req.body;
     Booking.create({
@@ -238,6 +258,8 @@ app.post('/bookings', async (req, res) => {
 
 //get bookings
 app.get('/bookings', async (req, res) => {
+    // connect to my mangodb
+    mongoose.connect(process.env.MONGO_URL);
     const userData = await getUserDataFromReq(req);
     res.json(await Booking.find({user: userData.id}).populate('place'));
 })
