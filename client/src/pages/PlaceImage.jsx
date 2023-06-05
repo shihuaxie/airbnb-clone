@@ -1,4 +1,4 @@
-import Image from '../components/Image.jsx';
+import Image from '../components/AddPlace/Image.jsx';
 
 export default function PlaceImage({place,index=0,className=null}) {
     if (!place.photos?.length) {
