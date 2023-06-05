@@ -18,6 +18,16 @@ const app = express();
 const bcryptSalt = bcrypt.genSaltSync(10);
 const jwtSecret = 'ak7hffieu3ybcxbajk5vf';
 
+//get user data from token func
+function getUserDataFromReq(req) {
+    return new Promise((resolve, reject) => {
+        jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
+            if (err) throw err;
+            resolve(userData)
+        });
+    });
+}
+
 //middleware
 app.use(express.json());
 app.use(cookieParser());
@@ -189,17 +199,25 @@ app.get('/places', async (req, res) => {
     res.json(await Place.find());
 })
 
-//bookings
-app.post('/bookings', (req, res) => {
+//post bookings
+app.post('/bookings', async (req, res) => {
+    const userData = await getUserDataFromReq(req);
     const {place, checkIn, checkOut, name, mobile, guestsNum, price} = req.body;
     Booking.create({
-        place, checkIn, checkOut, name, mobile, guestsNum, price
+        place, checkIn, checkOut, name, mobile, guestsNum, price,
+        user:userData.id,
     }).then((doc) => {
         res.json(doc);
     }).catch((err) => {
             throw err;
         }
     )
+})
+
+//get bookings
+app.get('/bookings', async (req, res) => {
+    const userData = await getUserDataFromReq(req);
+    res.json(await Booking.find({user:userData.id}).populate('place'));
 })
 
 app.listen(4000);
