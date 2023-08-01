@@ -23,7 +23,7 @@ const bucket = 'sylvia-booking-app';
 
 //get user data from token func
 function getUserDataFromReq(req) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
             if (err) throw err;
             resolve(userData)
@@ -37,8 +37,8 @@ app.use(cookieParser());
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(cors({
     credentials: true,
-    origin: 'http://127.0.0.1:5173',
-}))
+    origin: 'http://localhost:5173',
+    }))
 
 //DeprecationWarning:DeprecationWarning:
 mongoose.set("strictQuery", false);
